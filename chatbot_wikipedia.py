@@ -6,8 +6,10 @@ import difflib
 
 wikipedia.set_lang("pl")
 
-DATA_FILE = "data.json"
-CONTEXT_FILE = "context.json"
+# Ścieżki do plików w katalogu domowym użytkownika
+home = os.path.expanduser("~")
+DATA_FILE = os.path.join(home, "data.json")
+CONTEXT_FILE = os.path.join(home, "context.json")
 
 # Wczytanie bazy wiedzy
 if os.path.exists(DATA_FILE):
@@ -27,6 +29,7 @@ ostatni_temat = context.get("ostatni_temat")
 ostatnie_zrodlo = context.get("ostatnie_zrodlo")
 
 def zapisz_kontekst():
+    global ostatni_temat, ostatnie_zrodlo
     with open(CONTEXT_FILE, "w", encoding="utf-8") as f:
         json.dump({"ostatni_temat": ostatni_temat, "ostatnie_zrodlo": ostatnie_zrodlo}, f, ensure_ascii=False, indent=2)
 
@@ -154,4 +157,3 @@ while True:
         print(f"Bot: To pytanie jest trochę niejednoznaczne. Może chodziło Ci o coś z tych: {e.options[:5]}")
     except Exception as ex:
         print(f"Bot: Ups, coś poszło nie tak: {ex}")
-
